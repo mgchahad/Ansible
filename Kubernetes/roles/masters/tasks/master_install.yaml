@@ -1,0 +1,101 @@
+---
+- name: "Aplicando Update dos pacotes..."
+  apt:
+    update_cache: yes
+
+- name: "Instalando pacotes necessários..."
+  apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg2
+    - software-properties-common
+    - net-tools
+    - vim
+    - python3
+
+- name: "Adicionando repositório Docker..."
+  shell: |
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      apt-key fingerprint 0EBFCD88
+      add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" 
+
+- name: "Aplicando Update dos pacotes..."
+  apt:
+    update_cache: yes
+
+- name: "Instalando Docker..."
+  apt:
+    pkg:
+    - docker-ce=5:18.09.9~3-0~ubuntu-xenial
+    - docker-ce-cli=5:18.09.9~3-0~ubuntu-xenial
+    - containerd.io
+
+- name: "Definindo hostnames no arquivo /etc/hosts..."
+  shell: |
+      echo "{{ MASTER_IP }} master01" >> /etc/hosts
+      echo "{{ NODE01_IP }} node01" >> /etc/hosts
+      echo "{{ NODE02_IP }} node02" >> /etc/hosts
+
+- name: "Adicionando repositório do Kubernetes..."
+  shell: |
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list 
+      deb https://apt.kubernetes.io/ kubernetes-xenial main 
+      EOF
+
+- name: "Aplicando Update dos pacotes..."
+  apt:
+    update_cache: yes
+
+- name: "Instalando pacotes do Kubernetes..."
+  apt:
+    pkg:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: "Adicionando apt key para pacotes Kubernetes..."
+  shell: |
+      apt-mark hold kubelet kubeadm kubectl
+
+- name: "Reiniciando serviço do kubelet..."
+  systemd: state=restarted name=kubelet enabled=yes
+
+- name: "Verificando se o diretório do Kubernetes existe no servidor..."
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: kubernetes_file
+
+- name: "Iniciando Kubeadm..."
+  shell: |
+     kubeadm init
+  when: not kubernetes_file.stat.exists
+  register: kubeadmjoin
+
+- name: "Criando diretório para o arquivo config do Kubernetes..."
+  file:
+    path: /home/vagrant/.kube
+    owner: vagrant
+    group: vagrant
+    state: directory
+    mode: '0755'
+
+- name: "Copiando arquivo config do Kubernetes para usuário do Vagrant..."
+  shell: |
+      cp -r /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+      chown vagrant. /home/vagrant/.kube/config
+
+- name: "Espera de 30 segundos para inicialização do Kubernetes"
+  shell: |
+         sleep 30
+
+- name: "Instalando Calico Network..."
+  shell: |
+      kubectl apply -f https://docs.projectcalico.org/v3.17/manifests/calico.yaml --kubeconfig /home/vagrant/.kube/config
+
+- name: "Informações para adicionar os nós no Cluster..."
+  ansible.builtin.debug:
+    var: kubeadmjoin
+    verbosity: 2

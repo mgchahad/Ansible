@@ -1,0 +1,51 @@
+---
+- name: "Criando diretório para servidor Master01..."
+  file:
+    path: /home/{{ HOME_DIRECTORY }}/vagrant/master01
+    owner: "{{ USER }}"
+    group: "{{ GROUP }}"
+    state: directory
+    mode: '{{ MODE }}'
+
+- name: "Copiando template para o servidor Master01..."
+  template: src=vagrant_master01.j2 dest=~/vagrant/master01/Vagrantfile mode="{{ MODE }}" owner="{{ USER }}" group="{{ GROUP }}"
+
+
+- name: "Rodando deploy do servidor Master01..."
+  shell: |
+      cd ~/vagrant/master01 
+      vagrant up
+
+- name: "Criando diretório para servidor Node01..."
+  file:
+    path: /home/{{ HOME_DIRECTORY }}/vagrant/node01
+    owner: "{{ USER }}"
+    group: "{{ GROUP }}"
+    state: directory
+    mode: '{{ MODE }}'
+
+- name: "Copiando template para o servidor Node01..."
+  template: src=vagrant_node01.j2 dest=~/vagrant/node01/Vagrantfile mode="{{ MODE }}" owner="{{ USER }}" group="{{ GROUP }}"
+
+
+- name: "Rodando deploy do servidor Node01..."
+  shell: |
+      cd ~/vagrant/node01 
+      vagrant up
+
+- name: "Criando diretório para servidor Node02..."
+  file:
+    path: /home/{{ HOME_DIRECTORY }}/vagrant/node02
+    owner: "{{ USER }}"
+    group: "{{ GROUP }}"
+    state: directory
+    mode: '{{ MODE }}'
+
+- name: "Copiando template para o servidor Node02..."
+  template: src=vagrant_node02.j2 dest=~/vagrant/node02/Vagrantfile mode="{{ MODE }}" owner="{{ USER }}" group="{{ GROUP }}"
+
+
+- name: "Rodando deploy do servidor Node02..."
+  shell: |
+      cd ~/vagrant/node02
+      vagrant up

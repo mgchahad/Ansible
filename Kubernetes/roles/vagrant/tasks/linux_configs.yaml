@@ -1,0 +1,36 @@
+---
+- name: "Alterando o hostname do servidor Master..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ MASTER_IP }} "sudo hostnamectl set-hostname master01"
+
+- name: "Adicionando informações de Rede na interface do servidor Master..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ MASTER_IP }} "sudo sed -i '19i network {{ NETWORK }}' /etc/network/interfaces"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ MASTER_IP }} "sudo sed -i '20i gateway {{ GATEWAY }}' /etc/network/interfaces"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ MASTER_IP }} "sudo sed -i '21i dns-nameservers {{ DNS_SERVER }}' /etc/network/interfaces"
+
+- name: "Alterando o hostname do servidor Node01..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE01_IP }} "sudo hostnamectl set-hostname node01"
+
+- name: "Adicionando informações de Rede na interface do servidor Node01..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE01_IP }} "sudo sed -i '19i network {{ NETWORK }}' /etc/network/interfaces"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE01_IP }} "sudo sed -i '20i gateway {{ GATEWAY }}' /etc/network/interfaces"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE01_IP }} "sudo sed -i '21i dns-nameservers {{ DNS_SERVER }}' /etc/network/interfaces"
+
+- name: "Alterando o hostname do servidor Node02..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE02_IP }} "sudo hostnamectl set-hostname node02"
+
+- name: "Adicionando informações de Rede na interface do servidor Node02..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE02_IP }} "sudo sed -i '19i network {{ NETWORK }}' /etc/network/interfaces"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE02_IP }} "sudo sed -i '20i gateway {{ GATEWAY }}' /etc/network/interfaces"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE02_IP }} "sudo sed -i '21i dns-nameservers {{ DNS_SERVER }}' /etc/network/interfaces"
+
+- name: "Desligando servidores..."
+  shell: |
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ MASTER_IP }} "sudo init 0"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE01_IP }} "sudo init 0"
+         ssh -o "StrictHostKeyChecking=no" -l vagrant {{ NODE02_IP }} "sudo init 0"

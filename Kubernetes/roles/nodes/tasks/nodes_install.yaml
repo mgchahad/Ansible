@@ -1,0 +1,59 @@
+---
+- name: "Aplicando Update dos pacotes..."
+  apt:
+    update_cache: yes
+
+- name: "Instalando pacotes necessários..."
+  apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg2
+    - software-properties-common
+    - net-tools
+    - vim
+    - python3
+
+- name: "Adicionando repositório Docker..."
+  shell: |
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      apt-key fingerprint 0EBFCD88
+      add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" 
+
+- name: "Aplicando Update dos pacotes..."
+  apt:
+    update_cache: yes
+
+- name: "Instalando Docker..."
+  apt:
+    pkg:
+    - docker-ce=5:18.09.9~3-0~ubuntu-xenial
+    - docker-ce-cli=5:18.09.9~3-0~ubuntu-xenial
+    - containerd.io
+
+- name: "Definindo hostnames no arquivo /etc/hosts..."
+  shell: |
+      echo "{{ MASTER_IP }} master01" >> /etc/hosts
+      echo "{{ NODE01_IP }} node01" >> /etc/hosts
+      echo "{{ NODE02_IP }} node02" >> /etc/hosts
+
+- name: "Adicionando repositório do Kubernetes..."
+  shell: |
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list 
+      deb https://apt.kubernetes.io/ kubernetes-xenial main 
+      EOF
+
+- name: "Aplicando Update dos pacotes..."
+  apt:
+    update_cache: yes
+
+- name: "Instalando pacotes do Kubernetes..."
+  apt:
+    pkg:
+    - kubeadm
+
+- name: "Adicionando apt key para pacotes Kubernetes..."
+  shell: |
+      apt-mark hold kubeadm

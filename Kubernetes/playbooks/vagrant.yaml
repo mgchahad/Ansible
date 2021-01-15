@@ -1,0 +1,9 @@
+---
+- name: "Deploy Vagrant Servers"
+  hosts: localhost
+  remote_user: mchahad
+  vars:
+    ansible_private_key_file: "ssh_key/id_rsa"
+  gather_facts: True
+  roles:
+    - vagrant

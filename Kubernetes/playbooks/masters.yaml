@@ -1,0 +1,13 @@
+---
+- name: "Kubernetes Deploy - Masters"
+  hosts: masters
+  become: True
+  become_method: sudo
+  remote_user: vagrant
+  vars:
+    ansible_private_key_file: "ssh_key/id_rsa"
+  gather_facts: True
+  roles:
+    - masters
+  tags:
+    - kubernetes
