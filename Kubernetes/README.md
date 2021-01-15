@@ -34,7 +34,23 @@ Ajuste a permissão da chave com o comando abaixo:
 chmod 0400 id_rsa
 ```
 
-Uma vez que todas as ferramentas estiverem instaladas e configuradas no seu computador/notebook você estará pronto para executar o playbook.
+## Observações Importantes
+Antes de executar o playbook efetue os ajustes necessários nas variáveis presentes no diretório "defaults" dentro de cada playbook (diretório "roles"), adicionando suas informações de rede, nome de usuário, nome do grupo e o nome do diretório HOME que será utilizado. 
+Os arquivos do Vagrant estão configurados para receber interfaces do tipo "bridge". Verifique qual é o nome da sua interface de rede física (exemplos: eth0, enps2, eno1, etc) para utilizá-la.
+
+Você pode verificar o nome de sua interface de rede executando os comandos abaixo:
+
+```
+sudo ip a s
+```
+
+ou
+
+```
+sudo ifconfig
+```
+
+Uma vez que todas as ferramentas forem instaladas e as configurações ajustadas você estará pronto para executar o playbook.
 
 
 ## Criando servidores
