@@ -108,4 +108,4 @@ O resultado será algo similar ao apresentado abaixo:
 
 ![](images/kubectl_nodes.png)
 
-### Pronto! Você está pronto para utilizar o seu cluster de Kubernetes!
+### Pronto! Seu cluster de Kubernetes está pronto para ser utilizado!
