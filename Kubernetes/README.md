@@ -99,7 +99,7 @@ sudo kubeadm join 192.168.1.10:6443 --token hong2x.o1cox86w0dim4ujr --discovery-
 ```
 
 ## Validando o Cluster de Kubernetes
-Com tudo instalado e configurado, acess o servidor Master e execute o comando abaixo para validar o funcionamento do Cluster:
+Com tudo instalado e configurado, acesse o servidor Master e execute o comando abaixo para validar o funcionamento do Cluster:
 
 ```
 kubectl get nodes -o wide
