@@ -35,7 +35,7 @@ chmod 0400 id_rsa
 ```
 
 ## Observações Importantes
-Antes de executar o playbook efetue os ajustes necessários nas variáveis presentes no diretório "defaults" dentro de cada playbook (diretório "roles"), adicionando suas informações de rede, nome de usuário, nome do grupo e o nome do diretório HOME do usuário que será utilizado. 
+Antes de executar o playbook efetue os ajustes necessários nos arquivos e nas variáveis presentes no diretório "defaults" dentro de cada playbook (diretório "roles"), adicionando suas informações de rede, nome de usuário, nome do grupo e o nome do diretório HOME do usuário que será utilizado. 
 Os arquivos do Vagrant estão configurados para receber interfaces do tipo "bridge". Verifique qual é o nome da sua interface de rede física (exemplos: eth0, enps2, eno1, etc) para utilizá-la.
 
 Você pode verificar o nome de sua interface de rede executando os comandos abaixo:
@@ -60,13 +60,7 @@ Para instalar e configurar os servidores utilize o comando abaixo:
 ansible-playbook -i inventory/localhost playbooks/vagrant.yaml -vvv
 ```
 
-Ao final da execução do playbook os servidores serão desligados automaticamente. Será necessário ajustar as configurações de rede no Virtualbox, desativando a interface tipo NAT. Segue um exemplo abaixo:
-
-![](images/virtualbox_nat_interface.png)
-
-Aplique este procedimento em todos os servidores e em seguida inicie todos novamente. Aguarde alguns segundos para que todos estejam na tela de login. 
-
-Para acessar os servidores via SSH utilize o comando abaixo:
+Caso você queira validar o acesso aos servidores utilize o comando abaixo para acessá-los via SSH:
 
 ```
 ssh -l vagrant <IP_SERVIDOR>
