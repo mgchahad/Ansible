@@ -28,8 +28,8 @@
 - name: "Instalando Docker..."
   apt:
     pkg:
-    - docker-ce=5:18.09.9~3-0~ubuntu-xenial
-    - docker-ce-cli=5:18.09.9~3-0~ubuntu-xenial
+    - docker-ce=5:18.09.9~3-0~ubuntu-bionic
+    - docker-ce-cli=5:18.09.9~3-0~ubuntu-bionic
     - containerd.io
 
 - name: "Definindo hostnames no arquivo /etc/hosts..."
@@ -86,10 +86,6 @@
   shell: |
       cp -r /etc/kubernetes/admin.conf /home/vagrant/.kube/config
       chown vagrant. /home/vagrant/.kube/config
-
-- name: "Espera de 30 segundos para inicialização do Kubernetes"
-  shell: |
-         sleep 30
 
 - name: "Instalando Calico Network..."
   shell: |
