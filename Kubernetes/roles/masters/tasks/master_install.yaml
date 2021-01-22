@@ -87,10 +87,6 @@
       cp -r /etc/kubernetes/admin.conf /home/vagrant/.kube/config
       chown vagrant. /home/vagrant/.kube/config
 
-- name: "Espera de 30 segundos para inicialização do Kubernetes"
-  shell: |
-         sleep 30
-
 - name: "Instalando Calico Network..."
   shell: |
       kubectl apply -f https://docs.projectcalico.org/v3.17/manifests/calico.yaml --kubeconfig /home/vagrant/.kube/config
