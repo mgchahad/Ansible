@@ -28,8 +28,8 @@
 - name: "Instalando Docker..."
   apt:
     pkg:
-    - docker-ce=5:18.09.9~3-0~ubuntu-xenial
-    - docker-ce-cli=5:18.09.9~3-0~ubuntu-xenial
+    - docker-ce=5:18.09.9~3-0~ubuntu-bionic
+    - docker-ce-cli=5:18.09.9~3-0~ubuntu-bionic
     - containerd.io
 
 - name: "Definindo hostnames no arquivo /etc/hosts..."

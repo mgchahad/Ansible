@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "swapoff -a"
   config.vm.define "K8s-Node01", primary: true do |node01|
     node01.vm.hostname = "k8s-node01"
-    node01.vm.box = "ubuntu/xenial64"
+    node01.vm.box = "ubuntu/bionic64"
     node01.vm.network "public_network", :bridge => '{{ NETWORK_INTERFACE }}', ip: "{{ NODE01_IP }}", use_dhcp_assigned_default_route: true
     node01.vm.provision "shell",
     run: "always",
@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "swapoff -a"
   config.vm.define "K8s-Node02", primary: true do |node02|
     node02.vm.hostname = "k8s-node02"
-    node02.vm.box = "ubuntu/xenial64"
+    node02.vm.box = "ubuntu/bionic64"
     node02.vm.network "public_network", :bridge => '{{ NETWORK_INTERFACE }}', ip: "{{ NODE02_IP }}", use_dhcp_assigned_default_route: true
     node02.vm.provision "shell",
     run: "always",
@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "swapoff -a"
   config.vm.define "K8s-Master" do |master|
     master.vm.hostname = "k8s-master"
-    master.vm.box = "ubuntu/xenial64"
+    master.vm.box = "ubuntu/bionic64"
     master.vm.network "public_network", :bridge => '{{ NETWORK_INTERFACE }}', ip: "{{ MASTER_IP }}", use_dhcp_assigned_default_route: true
     master.vm.provision "shell",
     run: "always",
