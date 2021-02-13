@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     node01.vm.network "public_network", :bridge => '{{ NETWORK_INTERFACE }}', ip: "{{ NODE01_IP }}", use_dhcp_assigned_default_route: true
     node01.vm.provision "shell",
     run: "always",
-    inline: "route add default gw 192.168.1.1"
+    inline: "route add default gw 192.168.1.1 && route del default gw 10.0.2.2"
     node01.vm.provision "file", source: "~/.ssh/{{ PUBLIC_KEY }}", destination: "~/.ssh/{{ PUBLIC_KEY }}"
     node01.vm.provision "shell",
     inline: "apt-get update -y && apt-get install -y vim tree net-tools curl git && \
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     node02.vm.network "public_network", :bridge => '{{ NETWORK_INTERFACE }}', ip: "{{ NODE02_IP }}", use_dhcp_assigned_default_route: true
     node02.vm.provision "shell",
     run: "always",
-    inline: "route add default gw 192.168.1.1"
+    inline: "route add default gw 192.168.1.1 && route del default gw 10.0.2.2"
     node02.vm.provision "file", source: "~/.ssh/{{ PUBLIC_KEY }}", destination: "~/.ssh/{{ PUBLIC_KEY }}"
     node02.vm.provision "shell",
     inline: "apt-get update -y && apt-get install -y vim tree net-tools curl git && \
@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
     master.vm.network "public_network", :bridge => '{{ NETWORK_INTERFACE }}', ip: "{{ MASTER_IP }}", use_dhcp_assigned_default_route: true
     master.vm.provision "shell",
     run: "always",
-    inline: "route add default gw 192.168.1.1"
+    inline: "route add default gw 192.168.1.1 && route del default gw 10.0.2.2"
     master.vm.provision "file", source: "~/.ssh/{{ PUBLIC_KEY }}", destination: "~/.ssh/{{ PUBLIC_KEY }}"
     master.vm.provision "shell",
       inline: "apt-get update -y && apt-get install -y vim tree net-tools curl git && \
