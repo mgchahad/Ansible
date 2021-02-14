@@ -1,4 +1,12 @@
 ---
+- name: "Copiando template Netplan para Master01..."
+  template: src=50-vagrant-master.j2 dest=/etc/netplan/50-vagrant.yaml mode="{{ MODE }}" owner="{{ USER }}" group="{{ GROUP }}"
+
+- name: "Aplicando configurações Netplan para Master..."
+  when: inventory_hostname in groups['masters'][0]
+  shell: |
+       sudo netplan apply
+
 - name: "Aplicando Update dos pacotes..."
   apt:
     update_cache: yes

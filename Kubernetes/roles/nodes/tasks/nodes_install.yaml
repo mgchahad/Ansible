@@ -1,4 +1,22 @@
 ---
+- name: "Copiando template Netplan para Node01..."
+  when: inventory_hostname in groups['nodes'][0]
+  template: src=50-vagrant-node01.j2 dest=/etc/netplan/50-vagrant.yaml mode="{{ MODE }}" owner="{{ USER }}" group="{{ GROUP }}"
+
+- name: "Aplicando configurações Netplan para Node01..."
+  when: inventory_hostname in groups['nodes'][0]
+  shell: |
+       sudo netplan apply
+
+- name: "Copiando template Netplan para Node02..."
+  when: inventory_hostname in groups['nodes'][1]
+  template: src=50-vagrant-node02.j2 dest=/etc/netplan/50-vagrant.yaml mode="{{ MODE }}" owner="{{ USER }}" group="{{ GROUP }}"
+
+- name: "Aplicando configurações Netplan para Node02..."
+  when: inventory_hostname in groups['nodes'][1]
+  shell: |
+       sudo netplan apply
+
 - name: "Aplicando Update dos pacotes..."
   apt:
     update_cache: yes
